@@ -130,6 +130,73 @@ body {
   text-decoration: underline;
 }
 
+.search-job .title-search {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 1rem;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.search-job .title {
+  width: 100%;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.search-job .title .title-detail {
+  color: #5da5a4;
+  font-weight: 700;
+  background: #ecf7f7;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  border-radius: 5px;
+  padding-right: 0;
+  overflow: hidden;
+  padding-left: 0.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  gap: 0.3rem;
+}
+
+.search-job .title .title-detail span {
+  cursor: pointer;
+  background: #59a7a8;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: white;
+  width: 30px;
+  height: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.search-job .title .title-detail span:hover {
+  background: #2c3838;
+}
+
 .list-job {
   display: -webkit-box;
   display: -ms-flexbox;
