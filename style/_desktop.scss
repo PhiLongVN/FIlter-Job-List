@@ -12,16 +12,23 @@ body {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+
+  width: 100%;
 }
 
 /* ============================================ */
 /*                     .HEAD                    */
 /* ============================================ */
 .backgound {
+  width: 100%;
+
   img:nth-of-type(2) {
     display: none;
   }
-
+  img {
+    height: 100%;
+    width: 100%;
+  }
   background-color: #5da5a4;
 }
 
@@ -37,6 +44,7 @@ body {
 
 .search-job {
   width: 100%;
+  min-height: 62px;
   background: white;
 
   padding: 1rem 1.5rem;
@@ -49,6 +57,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  visibility: hidden;
 
   button {
     margin-left: auto;
@@ -227,4 +237,9 @@ body {
       }
     }
   }
+}
+
+.job-new {
+  border-left: solid 5px blue;
+  border-radius: 5px 0 0 5px;
 }

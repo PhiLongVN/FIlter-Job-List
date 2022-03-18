@@ -1,3 +1,8 @@
+// fetchjob: fetch API
+// createJob(), loadJob(), createnew(), createRequest(), createBorder(): tao blockJob cho tung thang
+// clearJob, DeleteJob(): delete may Job
+// HandleFIlter, CheckJob(): loc ra job khi cho
+
 const linkjob = './data.json';
 const listJob = document.querySelector('.list-job');
 
@@ -5,46 +10,67 @@ const listJob = document.querySelector('.list-job');
 /*                  LOAD JOB RA                 */
 /* ============================================ */
 // fetch
-function fetchjob() {
-  fetch(linkjob)
-    .then((res) => res.json())
-    .then((data) => {
-      loadJob(data);
-    });
+async function fetchjob() {
+  const res = await fetch(linkjob);
+  const data = await res.json();
+
+  return data;
+}
+
+// createJob(element)
+function createJob(element) {
+  return `<div class="${createBorder(element)}">
+  <div class="img">
+    <img src="${element.logo}" alt="" />
+  </div>
+
+  <div class="detail">
+    <div class="detail-name">
+      <span class="name">${element.company}</span>
+      ${createnew(element)}
+    </div>
+
+    <div class="detail-company">${element.position}</div>
+    <div class="detail-time">
+      <span>${element.postedAt}</span>
+      <span>${element.contract}</span>
+      <span>${element.location}</span>
+    </div>
+  </div>
+
+  <div class="detail-request">
+  <span class="feature">${element.role}</span>
+  <span  class="feature">${element.level}</span>
+  ${createrequest(element)}
+  </div>
+</div>`;
 }
 
 // loadjob
-function loadJob(data) {
-  let jobBlock = [];
+function loadJob() {
+  let blockJob = [];
 
-  data.forEach((element) => {
-    jobBlock += `<div class="job-block">
-    <div class="img">
-      <img src="${element.logo}" alt="" />
-    </div>
+  fetchjob().then((data) => {
+    data.forEach((element) => {
+      blockJob += createJob(element);
 
-    <div class="detail">
-      <div class="detail-name">
-        <span class="name">${element.company}</span>
-        ${createnew(element)}
-      </div>
-
-      <div class="detail-company">${element.position}</div>
-      <div class="detail-time">
-        <span>${element.postedAt}</span>
-        <span>${element.contract}</span>
-        <span>${element.location}</span>
-      </div>
-    </div>
-
-    <div class="detail-request">
-    <span class="feature">${element.role}</span>
-    <span  class="feature">${element.level}</span>
-    ${createrequest(element)}
-    </div>
-  </div>`;
+      // console.log(blockJob);
+      listJob.innerHTML = blockJob;
+    });
   });
-  listJob.innerHTML = jobBlock;
+}
+loadJob();
+
+// createBorder(data)
+function createBorder(data) {
+  let border;
+  if (data.featured) {
+    border = `job-block job-new`;
+  } else {
+    border = `job-block`;
+  }
+
+  return border;
 }
 
 // createnew(data)
@@ -74,8 +100,6 @@ function createrequest(data) {
   return jobBLock;
 }
 
-fetchjob();
-
 /* ============================================ */
 /*           KHI BAM VAO THANH SEARCH           */
 /* ============================================ */
@@ -86,15 +110,20 @@ const searchBar = document.querySelector('.search-job');
 
 clear.addEventListener('click', clearHandle);
 
+// clearHandle()
 function clearHandle() {
   search.innerHTML = '';
   array = [];
+  searchBar.style.visibility = 'hidden';
+
+  handleFilter();
 }
 
 listJob.addEventListener('click', handleFeature);
 
 let array = [];
 
+// handleFeature(e)
 function handleFeature(e) {
   let event = e.target;
   let value;
@@ -102,6 +131,7 @@ function handleFeature(e) {
 
   if (event.classList.contains('feature')) {
     value = event.innerHTML;
+    searchBar.style.visibility = 'visible';
 
     if (!array.includes(value)) {
       array.push(value);
@@ -112,13 +142,14 @@ function handleFeature(e) {
 
       search.innerHTML = block;
 
-      handleFilter()
+      handleFilter();
     }
   }
 }
 
 search.addEventListener('click', handleDelete);
 
+// handleDelete(e)
 function handleDelete(e) {
   let targetClick = e.target;
 
@@ -131,15 +162,41 @@ function handleDelete(e) {
       a = a.replace('x', '');
       let index = array.indexOf(a);
       array.splice(index, 1);
+      handleFilter();
+    }
+    if (array.length == 0) {
+      searchBar.style.visibility = 'hidden';
     }
   }
 }
 
-
+// handleFilter()
 function handleFilter() {
-   
- 
-     
-    
-   
+  let blockJob = [];
+
+  fetchjob().then((data) => {
+    data.forEach((element) => {
+      if (checkJob(element)) {
+        blockJob += createJob(element);
+
+        listJob.innerHTML = blockJob;
+      }
+    });
+  });
+}
+
+// checkJob(element)
+function checkJob(element) {
+  let isValid = true;
+  array.forEach((elem) => {
+    if (
+      !element.languages.includes(elem) &&
+      !element.tools.includes(elem) &&
+      element.role !== elem &&
+      element.level !== elem
+    ) {
+      isValid = false;
+    }
+  });
+  return isValid;
 }
